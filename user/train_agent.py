@@ -561,6 +561,27 @@ def gen_reward_manager():
     }
     return RewardManager(reward_functions, signal_subscriptions)
 
+def spatial_control_reward(env: WarehouseBrawl, agent: str) -> float:
+    # avoiding go to the egde and avoiding falling
+    player: Player = env.objects["player"]
+    opponent: Player = env.objects["opponent"]
+
+    player_x = player.body.position.x
+    player_y = player.body.position.y
+
+    if player_x < -6.25:
+        return  - 1.0
+    if -1.25 < player_x < -0.75:
+        return - 1.0
+    if 0.75 < player_x < 2.25:
+        return - 1.0
+    if 6.25 > player_x:
+        return -1.0
+
+    if player_y < 7:
+        return -1.0
+    return 0.0
+
 # -------------------------------------------------------------------------
 # ----------------------------- MAIN FUNCTION -----------------------------
 # -------------------------------------------------------------------------
