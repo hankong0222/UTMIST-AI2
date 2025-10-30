@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="3aa24987-2ad7-446a-9819-a3a3e8ca488e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/UTMIST-AI2-2025.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/UTMIST-AI2-2025.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/train_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/train_agent.py" afterDir="false" />
     </list>
+=======
+    <list default="true" id="3aa24987-2ad7-446a-9819-a3a3e8ca488e" name="Changes" comment="" />
+>>>>>>> b2adf88aa63bded82b29be164b392cac9d950326
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +22,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< HEAD
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
@@ -30,6 +35,20 @@
     &quot;accountId&quot;: &quot;0aa1d1b9-fa7d-4b07-9c88-fc138b1f6bf9&quot;
   }
 }</component>
+=======
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Lunear01"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/hankong0222/UTMIST-AI2.git",
+    "accountId": "fb7bcaad-8a73-4cbf-accd-29e91a28c2a5"
+  }
+}]]></component>
+>>>>>>> b2adf88aa63bded82b29be164b392cac9d950326
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -40,6 +59,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+<<<<<<< HEAD
     "Python.demo_match.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -75,6 +95,16 @@
       <method v="2" />
     </configuration>
   </component>
+=======
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "/home/lunear/.local/share/JetBrains/PyCharmCE2025.2/Shell Script/shellcheck",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/lunear/My Stuff/UTMIST AI^2/UTMIST-AI2",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+>>>>>>> b2adf88aa63bded82b29be164b392cac9d950326
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
