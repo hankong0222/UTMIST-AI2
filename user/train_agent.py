@@ -2,7 +2,7 @@
 TRAINING: AGENT
 
 This file contains all the types of Agent classes, the Reward Function API, and the built-in train function from our multi-agent RL API for self-play training.
-- All of these Agent classes are each described below. 
+- All of these Agent classes are each described below.
 
 Running this file will initiate the training function, and will:
 a) Start training from scratch
@@ -16,7 +16,7 @@ b) Continue training from a specific timestep given an input `file_path`
 from torch import nn as nn
 import numpy as np
 import pygame
-from stable_baselines3 import A2C, PPO, SAC, DQN, DDPG, TD3, HER 
+from stable_baselines3 import A2C, PPO, SAC, DQN, DDPG, TD3, HER
 from sb3_contrib import RecurrentPPO
 from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
@@ -181,7 +181,7 @@ class UserInputAgent(Agent):
 
     def predict(self, obs):
         action = self.act_helper.zeros()
-       
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             action = self.act_helper.press_keys(['w'], action)
@@ -251,7 +251,7 @@ class ClockworkAgent(Agent):
         action = self.act_helper.press_keys(self.current_action_data)
         self.steps += 1  # Increment step counter
         return action
-    
+
 # --------------------------------------------------------------------------------
 # ----------------------------- REWARD FUNCTIONS API -----------------------------
 # --------------------------------------------------------------------------------
@@ -433,7 +433,7 @@ def on_knockout_reward(env: WarehouseBrawl, agent: str) -> float:
         return -1.0
     else:
         return 1.0
-    
+
 def on_equip_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == "player":
         if env.objects["player"].weapon == "Hammer":
@@ -453,6 +453,28 @@ def on_combo_reward(env: WarehouseBrawl, agent: str) -> float:
         return -1.0
     else:
         return 1.0
+
+def spatial_control_reward(env: WarehouseBrawl, agent: str) -> float:
+    # avoiding go to the egde and avoiding falling
+    player: Player = env.objects["player"]
+    opponent: Player = env.objects["opponent"]
+
+    player_x = player.body.position.x
+    player_y = player.body.position.y
+
+    if player_x < -6.25:
+        return  - 1.0
+    if -1.25 < player_x < -0.75:
+        return - 1.0
+    if 0.75 < player_x < 2.25:
+        return - 1.0
+    if 6.25 > player_x:
+        return -1.0
+
+    if player_y < 7:
+        return -1.0
+    return 0.0
+
 
 '''
 Add your dictionary of RewardFunctions here using RewTerms
