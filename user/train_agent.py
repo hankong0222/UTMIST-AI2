@@ -582,6 +582,29 @@ def spatial_control_reward(env: WarehouseBrawl, agent: str) -> float:
         return -1.0
     return 0.0
 
+def stock_advantage_reward(
+    env: WarehouseBrawl,
+    success_value: float = 2.0, #TODO
+) -> float:
+
+    """
+    Computes the reward given for every time step your agent is edge guarding the opponent.
+
+    Args:
+        env (WarehouseBrawl): The game environment
+        success_value (float): Reward value related to having/gaining a weapon (however you define it)
+    Returns:
+        float: The computed reward.
+    """
+    reward = 0.0
+    #Makes agent play more conservatively as the game goes on in order to preserve stock advantage
+    
+    
+    if env.time_elapsed > 500 and env.objects["player"].damage_taken_this_stock > 50:
+        reward = -env.objects["player"].damage_taken_this_frame * 2
+    
+    return reward
+
 # -------------------------------------------------------------------------
 # ----------------------------- MAIN FUNCTION -----------------------------
 # -------------------------------------------------------------------------
