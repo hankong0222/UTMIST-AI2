@@ -117,6 +117,44 @@ class SubmittedAgent(Agent):
 
         action, _ = self.model.predict(obs)
 
+        obs.player: Player = env.objects["player"] # type: ignore
+        obs.opponent: Player = env.objects["opponent"] # type: ignore
+
+        # Player and opponent positions
+        player_x = obs.player.body.position.x
+        player_y = obs.player.body.position.y
+        opponent_x = obs.opponent.body.position.x
+        opponent_y = obs.opponent.body.position.y
+
+        # Calculate distances
+        distance_x = opponent_x - player_x
+        distance_y = opponent_y - player_y
+        distance = (distance_x**2 + distance_y**2)**0.5
+        obs.distance = distance
+
+        # Determine opponent's position relative to player
+        if distance_x > 0:
+            obs.opponent_position = "right"
+        else:
+            obs.opponent_position = "left"
+
+        # If the opponent is within a certain range, and on a specific side, modify action
+        if distance < 50:
+            if obs.opponent_position == "right":
+                # If close to opponent on the right, choose aggressive action
+                action = self.act_helper.press_keys(['w'], action) + self.act_helper.press_keys(['j'], action) + self.act_helper.press_keys(['j'], action) + self.act_helper.press_keys(['j'], action) + self.act_helper.press_keys(['j'], action)
+            elif obs.opponent_position == "left":
+                # If close to opponent on the left, choose aggressive action
+                action = self.act_helper.press_keys(['a'], action)
+        else:
+            # If far from opponent, choose defensive action
+            action = self.defensive_action(obs)
+
+        if obs.player.health < 20:
+            # If health is low, prioritize evasion
+            action = self.evasive_action(obs)
+
+
         return action
 
     def save(self, file_path: str) -> None:
