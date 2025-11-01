@@ -411,7 +411,7 @@ def damage_interaction_reward(
 
 def danger_zone_reward(
     env: WarehouseBrawl,
-    zone_penalty: int = 1,
+    zone_penalty: int = 5,
     zone_height: float = 4.2
 ) -> float:
     """
@@ -549,7 +549,7 @@ def gen_reward_manager():
         #'head_to_middle_reward': RewTerm(func=head_to_middle_reward, weight=0.01),
         #'head_to_opponent': RewTerm(func=head_to_opponent, weight=0.05),
         'penalize_attack_reward': RewTerm(func=in_state_reward, weight=-0.04, params={'desired_state': AttackState}),
-        'holding_more_than_3_keys': RewTerm(func=holding_more_than_3_keys, weight=-0.01),
+        'holding_more_than_3_keys': RewTerm(func=holding_more_than_3_keys, weight=-1.0),
         #'taunt_reward': RewTerm(func=in_state_reward, weight=0.2, params={'desired_state': TauntState}),
     }
     signal_subscriptions = {
@@ -570,17 +570,16 @@ def spatial_control_reward(env: WarehouseBrawl, agent: str) -> float:
     player_y = player.body.position.y
 
     if player_x < -6.25:
-        return  - 1.0
+        return  -1.0
     if -1.25 < player_x < -0.75:
-        return - 1.0
+        return -1.0
     if 0.75 < player_x < 2.25:
-        return - 1.0
+        return -1.0
     if 6.25 > player_x:
         return -1.0
 
-    if player_y < 7:
-        return -1.0
-    return 0.0
+    
+    return 1.0
 
 def stock_advantage_reward(
     env: WarehouseBrawl,
@@ -597,7 +596,7 @@ def stock_advantage_reward(
         float: The computed reward.
     """
     reward = 0.0
-    #Makes agent play more conservatively as the game goes on in order to preserve stock advantage
+    #Makes agent play more safe as the game goes on in order to preserve stock advantage
     
     
     if env.time_elapsed > 500 and env.objects["player"].damage_taken_this_stock > 50:
@@ -632,7 +631,7 @@ if __name__ == '__main__':
     # Set save settings here:
     save_handler = SaveHandler(
         agent=my_agent, # Agent to save
-        save_freq=100_000, # Save frequency
+        save_freq=50_000, # Save frequency
         max_saved=40, # Maximum number of saved models
         save_path='checkpoints', # Save path
         run_name='experiment_9',
@@ -652,6 +651,6 @@ if __name__ == '__main__':
         save_handler,
         opponent_cfg,
         CameraResolution.LOW,
-        train_timesteps=1_000_000_000,
+        train_timesteps=1_000_000,
         train_logging=TrainLogging.PLOT
     )
