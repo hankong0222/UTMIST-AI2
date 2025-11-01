@@ -19,7 +19,9 @@ import gdown
 from typing import Optional
 from environment.agent import Agent
 from stable_baselines3 import PPO, A2C # Sample RL Algo imports
-from sb3_contrib import RecurrentPPO # Importing an LSTM
+from sb3_contrib import RecurrentPPO
+
+from environment.environment import Player # Importing an LSTM
 
 # To run the sample TTNN model, you can uncomment the 2 lines below:
 # import ttnn
@@ -115,44 +117,43 @@ class SubmittedAgent(Agent):
 
     def predict(self, obs):
 
-        action, _ = self.model.predict(obs)
+        # action, _ = self.model.predict(obs)
+        # obs.player = self.env.objects["player"] 
+        # obs.opponent = self.env.objects["opponent"] 
 
-        obs.player: Player = env.objects["player"] # type: ignore
-        obs.opponent: Player = env.objects["opponent"] # type: ignore
+        # # Player and opponent positions
+        # player_x = obs.player.body.position.x
+        # player_y = obs.player.body.position.y
+        # opponent_x = obs.opponent.body.position.x
+        # opponent_y = obs.opponent.body.position.y
 
-        # Player and opponent positions
-        player_x = obs.player.body.position.x
-        player_y = obs.player.body.position.y
-        opponent_x = obs.opponent.body.position.x
-        opponent_y = obs.opponent.body.position.y
+        # # Calculate distances
+        # distance_x = opponent_x - player_x
+        # distance_y = opponent_y - player_y
+        # distance = (distance_x**2 + distance_y**2)**0.5
+        # obs.distance = distance
 
-        # Calculate distances
-        distance_x = opponent_x - player_x
-        distance_y = opponent_y - player_y
-        distance = (distance_x**2 + distance_y**2)**0.5
-        obs.distance = distance
+        # # Determine opponent's position relative to player
+        # if distance_x > 0:
+        #     obs.opponent_position = "right"
+        # else:
+        #     obs.opponent_position = "left"
 
-        # Determine opponent's position relative to player
-        if distance_x > 0:
-            obs.opponent_position = "right"
-        else:
-            obs.opponent_position = "left"
+        # # If the opponent is within a certain range, and on a specific side, modify action
+        # if distance < 50:
+        #     if obs.opponent_position == "right":
+        #         # If close to opponent on the right, choose aggressive action
+        #         action = self.act.helper.press_keys(['d'], action) + self.act.helper.press_keys(['w'], action) + self.act.helper.press_keys(['j'], action) + self.act.helper.press_keys(['s'], action) + self.act.helper.press_keys(['j'], action) + self.act.helper.press_keys(['k'], action)
+        #     elif obs.opponent_position == "left":
+        #         # If close to opponent on the left, choose aggressive action
+        #         action = self.act.helper.press_keys(['a'], action) + self.act.helper.press_keys(['w'], action) + self.act.helper.press_keys(['j'], action) + self.act.helper.press_keys(['s'], action) + self.act.helper.press_keys(['j'], action) + self.act.helper.press_keys(['k'], action)
+        # else:
+        #     # If far from opponent, choose defensive action
+        #     action = self.defensive_action(obs)
 
-        # If the opponent is within a certain range, and on a specific side, modify action
-        if distance < 50:
-            if obs.opponent_position == "right":
-                # If close to opponent on the right, choose aggressive action
-                action = self.act_helper.press_keys(['w'], action) + self.act_helper.press_keys(['j'], action) + self.act_helper.press_keys(['j'], action) + self.act_helper.press_keys(['j'], action) + self.act_helper.press_keys(['j'], action)
-            elif obs.opponent_position == "left":
-                # If close to opponent on the left, choose aggressive action
-                action = self.act_helper.press_keys(['a'], action)
-        else:
-            # If far from opponent, choose defensive action
-            action = self.defensive_action(obs)
-
-        if obs.player.health < 20:
-            # If health is low, prioritize evasion
-            action = self.evasive_action(obs)
+        # if obs.player.health < 20:
+        #     # If health is low, prioritize evasion
+        #     action = self.evasive_action(obs)
 
 
         return action
