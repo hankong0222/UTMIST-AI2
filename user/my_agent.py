@@ -66,6 +66,7 @@ class SubmittedAgent(Agent):
 
     def predict(self, obs):
         action, _ = self.model.predict(obs)
+
         return action
 
     def save(self, file_path: str) -> None:
