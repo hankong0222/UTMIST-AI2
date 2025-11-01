@@ -116,10 +116,13 @@ class SubmittedAgent(Agent):
         return data_path
 
     def predict(self, obs):
-
+        if isinstance(obs, np.ndarray):
+            obs = torch.from_numpy(obs).to(self.model.device)
+        action, _ = self.model.predict(obs, deterministic=True)
+        return action
         # action, _ = self.model.predict(obs)
-        # obs.player = self.env.objects["player"] 
-        # obs.opponent = self.env.objects["opponent"] 
+        # obs.player = self.env.objects["player"]
+        # obs.opponent = self.env.objects["opponent"]
 
         # # Player and opponent positions
         # player_x = obs.player.body.position.x
@@ -164,4 +167,6 @@ class SubmittedAgent(Agent):
     # If modifying the number of models (or training in general), modify this
     def learn(self, env, total_timesteps, log_interval: int = 4):
         self.model.set_env(env)
+        self.model.verbose = 1
+
         self.model.learn(total_timesteps=total_timesteps, log_interval=log_interval)
