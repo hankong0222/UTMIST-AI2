@@ -524,8 +524,8 @@ def spatial_control_reward(env: WarehouseBrawl) -> float:
 
     # Reward being roughly on top of the fixed platforms (use tolerances)
     EPS = 0.15
-    on_left_platform   = (-7.0 < x < -2.0) and (abs(y - 2.85) <= EPS)
-    on_right_platform  = ( 2.0 < x <  7.0) and (abs(y - 0.85) <= EPS)
+    on_left_platform   = (-7.0 < player_x < -2.0) and (abs(player_y - 2.85) <= EPS)
+    on_right_platform  = ( 2.0 < player_x <  7.0) and (abs(player_y - 0.85) <= EPS)
     if on_left_platform or on_right_platform:
         return 0.1  # small dense positive
 
