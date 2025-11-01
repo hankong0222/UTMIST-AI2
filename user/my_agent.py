@@ -66,6 +66,13 @@ class SubmittedAgent(Agent):
 
     def predict(self, obs):
         action, _ = self.model.predict(obs)
+        obs.player: Player = env.objects["player"] #type: ignore
+        obs.opponent: Player = env.objects["opponent"] #type: ignore
+
+        player_x = obs.player.body.position.x
+        player_y = obs.player.body.position.y
+
+        if 
         return action
 
     def save(self, file_path: str) -> None:

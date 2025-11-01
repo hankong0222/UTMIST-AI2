@@ -520,18 +520,15 @@ def spatial_control_reward(env: WarehouseBrawl) -> float:
         return -1.0
     if 0.75 < player_x < 2.25:
         return -1.0
-    if 6.25 < player_x:
+    if 6.25 > player_x:
         return -1.0
 
-    if player_x > -7.0 and player_x < -2.0 and player_y >= 0.5 and player_y <= 2.8:
+    if player_x > -7.0 and player_x < -2.0 and player_y == 2.85:
         return 2.0
     
-    if player_x < 7.0 and player_x > 2.0 and player_y >= -1.6 and player_y <= 0.8:
+    if player_x < 7.0 and player_x > 2.0 and player_y == 0.85:
         return 2.0 
-    
-    
     return 0
-
 
 def stock_advantage_reward(
     env: WarehouseBrawl,
@@ -713,10 +710,14 @@ if __name__ == '__main__':
     my_agent = SB3Agent(sb3_class=PPO)
 
     # Start here if you want to train from scratch. e.g:
+<<<<<<< HEAD
     # my_agent = RecurrentPPOAgent()
+=======
+    #my_agent = RecurrentPPOAgent()
+>>>>>>> parent of 5670285 (changed spatial_control_reward slightly)
 
     # Start here if you want to train from a specific timestep. e.g:
-    #my_agent = SB3Agent(sb3_class=PPO, file_path=r'C:\Users\jpanu\New folder\UTMIST-AI2\checkpoints\experiment_9\rl_model_273397_steps.zip')
+    my_agent = SB3Agent(sb3_class=PPO, file_path=r'C:\Users\jpanu\New folder\UTMIST-AI2\checkpoints\experiment_9\rl_model_273397_steps.zip')
 
     # Reward manager
     reward_manager = gen_reward_manager()
@@ -732,7 +733,7 @@ if __name__ == '__main__':
         save_freq=50_000, # Save frequency
         max_saved=40, # Maximum number of saved models
         save_path='checkpoints', # Save path
-        run_name='experiment_11',
+        run_name='experiment_9',
         mode=SaveHandlerMode.RESUME # Save mode, FORCE or RESUME
     )
 
