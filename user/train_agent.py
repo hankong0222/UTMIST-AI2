@@ -516,18 +516,21 @@ def spatial_control_reward(env: WarehouseBrawl) -> float:
     if player_x < -6.25:
         return  -1.0
     if -1.25 < player_x < -0.75:
-        return -1.0
+        return -0.1
     if 0.75 < player_x < 2.25:
-        return -1.0
+        return -0.1
     if 6.25 > player_x:
         return -1.0
 
-    if player_x > -7.0 and player_x < -2.0 and player_y == 2.85:
-        return 2.0
+    # Reward being roughly on top of the fixed platforms (use tolerances)
+    EPS = 0.15
+    on_left_platform   = (-7.0 < x < -2.0) and (abs(y - 2.85) <= EPS)
+    on_right_platform  = ( 2.0 < x <  7.0) and (abs(y - 0.85) <= EPS)
+    if on_left_platform or on_right_platform:
+        return 0.1  # small dense positive
+
+    return 0.0 
     
-    if player_x < 7.0 and player_x > 2.0 and player_y == 0.85:
-        return 2.0 
-    return 0
 
 def stock_advantage_reward(
     env: WarehouseBrawl,
@@ -710,11 +713,7 @@ if __name__ == '__main__':
     my_agent = SB3Agent(sb3_class=PPO)
 
     # Start here if you want to train from scratch. e.g:
-<<<<<<< HEAD
     # my_agent = RecurrentPPOAgent()
-=======
-    #my_agent = RecurrentPPOAgent()
->>>>>>> parent of 5670285 (changed spatial_control_reward slightly)
 
     # Start here if you want to train from a specific timestep. e.g:
     my_agent = SB3Agent(sb3_class=PPO, file_path=r'C:\Users\jpanu\New folder\UTMIST-AI2\checkpoints\experiment_9\rl_model_273397_steps.zip')

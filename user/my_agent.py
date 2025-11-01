@@ -17,6 +17,9 @@
 import os
 import gdown
 from typing import Optional
+
+import numpy as np
+import torch
 from environment.agent import Agent
 from stable_baselines3 import PPO, A2C # Sample RL Algo imports
 from sb3_contrib import RecurrentPPO
