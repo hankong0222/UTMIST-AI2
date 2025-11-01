@@ -561,6 +561,85 @@ def stock_advantage_reward(
 
     return reward
 
+def edge_guarding_reward(env: WarehouseBrawl) -> float:
+    """
+    Computes the reward given for every time step your agent is edge guarding the opponent.
+
+    Args:
+        env (WarehouseBrawl): The game environment
+    """
+    reward = 0.0
+
+    # Getting player and opponent from the environment
+    player: Player = env.objects["player"]
+    opponent: Player = env.objects["opponent"]
+
+    # Player and opponent positions
+    player_x = player.body.position.x
+    player_y = player.body.position.y
+    opponent_x = opponent.body.position.x
+    opponent_y = opponent.body.position.y
+
+    # Platform 1 dimensions and positions
+    PLATFORM1_LEFT = -7.0
+    PLATFORM1_RIGHT = -2.0
+    PLATFORM1_Y = 2.85
+
+    # Platform 2 dimensions and positions
+    PLATFORM2_LEFT = 2.0
+    PLATFORM2_RIGHT = 7.0
+    PLATFORM2_Y = 0.85
+    
+    # Moving platform endpoints (center points)
+    MOVING_PLATFORM_LEFT_CENTER = (-1.0, 0.0)
+    MOVING_PLATFORM_RIGHT_CENTER = (1.0, 2.0)
+    PLATFORM_WIDTH = 2.0
+    PLATFORM_HEIGHT = 0.2
+
+    # Platform 1 edge guarding
+    if opponent_y < PLATFORM1_Y:
+        # Opponent off left edge of platform 1
+        if opponent_x < PLATFORM1_LEFT - 0.5:  # Buffer beyond platform edge
+            # Player should be near the left edge to guard
+            if PLATFORM1_LEFT - 1.0 <= player_x <= PLATFORM1_LEFT + 0.5 and player_y < PLATFORM1_Y:
+                reward += 1.0 * env.dt
+        # Opponent off right edge of platform 1
+        elif opponent_x > PLATFORM1_RIGHT + 0.5:
+            # Player should be near the right edge to guard
+            if PLATFORM1_RIGHT - 0.5 <= player_x <= PLATFORM1_RIGHT + 1.0 and player_y < PLATFORM1_Y:
+                reward += 1.0 * env.dt
+
+    # Platform 2 edge guarding
+    if opponent_y < PLATFORM2_Y:
+        # Opponent off left edge of platform 2
+        if opponent_x < PLATFORM2_LEFT - 0.5:
+            # Player should be near the left edge to guard
+            if PLATFORM2_LEFT - 1.0 <= player_x <= PLATFORM2_LEFT + 0.5 and player_y < PLATFORM2_Y:
+                reward += 1.0 * env.dt
+        # Opponent off right edge of platform 2
+        elif opponent_x > PLATFORM2_RIGHT + 0.5:
+            # Player should be near the right edge to guard
+            if PLATFORM2_RIGHT - 0.5 <= player_x <= PLATFORM2_RIGHT + 1.0 and player_y < PLATFORM2_Y:
+                reward += 1.0 * env.dt
+
+    # Moving platform edge guarding
+    
+    # Left side of moving platform
+    left_platform_x, left_platform_y = MOVING_PLATFORM_LEFT_CENTER
+    if opponent_y < left_platform_y and opponent_x < left_platform_x - PLATFORM_WIDTH/2:
+        if (player_x < left_platform_x - PLATFORM_WIDTH/2 + 1.0 and 
+            player_y < left_platform_y + PLATFORM_HEIGHT/2):
+            reward += 1.0 * env.dt
+    
+    # Right side of moving platform  
+    right_platform_x, right_platform_y = MOVING_PLATFORM_RIGHT_CENTER
+    if opponent_y < right_platform_y and opponent_x > right_platform_x + PLATFORM_WIDTH/2:
+        if (player_x > right_platform_x + PLATFORM_WIDTH/2 - 1.0 and 
+            player_y < right_platform_y + PLATFORM_HEIGHT/2):
+            reward += 1.0 * env.dt
+
+    return reward
+
 def on_win_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == 'player':
         return 1.0
@@ -630,10 +709,11 @@ The main function runs training. You can change configurations such as the Agent
 '''
 if __name__ == '__main__':
     # Create agent
-    #my_agent = CustomAgent(sb3_class=PPO, extractor=MLPExtractor)
+    # my_agent = CustomAgent(sb3_class=PPO, extractor=MLPExtractor)
+    my_agent = SB3Agent(sb3_class=PPO)
 
     # Start here if you want to train from scratch. e.g:
-    my_agent = RecurrentPPOAgent()
+    # my_agent = RecurrentPPOAgent()
 
     # Start here if you want to train from a specific timestep. e.g:
     #my_agent = SB3Agent(sb3_class=PPO, file_path=r'C:\Users\jpanu\New folder\UTMIST-AI2\checkpoints\experiment_9\rl_model_273397_steps.zip')
