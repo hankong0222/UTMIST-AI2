@@ -509,7 +509,6 @@ def holding_more_than_3_keys(
 def spatial_control_reward(env: WarehouseBrawl) -> float:
     # avoiding go to the egde and avoiding falling
     player: Player = env.objects["player"]
-    opponent: Player = env.objects["opponent"]
 
     player_x = player.body.position.x
     player_y = player.body.position.y
@@ -637,35 +636,36 @@ def edge_guarding_reward(env: WarehouseBrawl) -> float:
 
     return reward
 
+
 def on_win_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == 'player':
-        return 1.0
+        return 100.0
     else:
-        return -1.0
+        return -50.0
 
 def on_knockout_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == 'player':
-        return -1.0
+        return -15.0
     else:
-        return 1.0
+        return 10.0
     
 def on_equip_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == "player":
         if env.objects["player"].weapon == "Hammer":
-            return 2.0
+            return 5.0
         elif env.objects["player"].weapon == "Spear":
-            return 1.0
+            return 4.0
     return 0.0
 
 def on_drop_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == "player":
         if env.objects["player"].weapon == "Punch":
-            return -1.0
+            return -10.0
     return 0.0
 
 def on_combo_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == 'player':
-        return -1.0
+        return -5.0
     else:
         return 1.0
     
