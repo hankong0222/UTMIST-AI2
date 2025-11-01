@@ -507,7 +507,7 @@ def holding_more_than_3_keys(
     return 0
 
 def spatial_control_reward(env: WarehouseBrawl) -> float:
-    # avoiding go to the egde and avoiding falling
+    # avoiding go to the edge and avoiding falling
     player: Player = env.objects["player"]
 
     player_x = player.body.position.x
@@ -710,14 +710,11 @@ if __name__ == '__main__':
     my_agent = SB3Agent(sb3_class=PPO)
 
     # Start here if you want to train from scratch. e.g:
-<<<<<<< HEAD
     # my_agent = RecurrentPPOAgent()
-=======
-    #my_agent = RecurrentPPOAgent()
->>>>>>> parent of 5670285 (changed spatial_control_reward slightly)
+    # my_agent = RecurrentPPOAgent()
 
     # Start here if you want to train from a specific timestep. e.g:
-    my_agent = SB3Agent(sb3_class=PPO, file_path=r'C:\Users\jpanu\New folder\UTMIST-AI2\checkpoints\experiment_9\rl_model_273397_steps.zip')
+    # my_agent = SB3Agent(sb3_class=PPO, file_path=r'')
 
     # Reward manager
     reward_manager = gen_reward_manager()
@@ -733,7 +730,7 @@ if __name__ == '__main__':
         save_freq=50_000, # Save frequency
         max_saved=40, # Maximum number of saved models
         save_path='checkpoints', # Save path
-        run_name='experiment_9',
+        run_name='experiment_21',
         mode=SaveHandlerMode.RESUME # Save mode, FORCE or RESUME
     )
 

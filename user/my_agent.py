@@ -17,6 +17,9 @@
 import os
 import gdown
 from typing import Optional
+
+import numpy as np
+import torch
 from environment.agent import Agent
 from stable_baselines3 import PPO, A2C # Sample RL Algo imports
 from sb3_contrib import RecurrentPPO
@@ -116,8 +119,6 @@ class SubmittedAgent(Agent):
         return data_path
 
     def predict(self, obs):
-        if isinstance(obs, np.ndarray):
-            obs = torch.from_numpy(obs).to(self.model.device)
         action, _ = self.model.predict(obs, deterministic=True)
         return action
         # action, _ = self.model.predict(obs)
@@ -157,9 +158,6 @@ class SubmittedAgent(Agent):
         # if obs.player.health < 20:
         #     # If health is low, prioritize evasion
         #     action = self.evasive_action(obs)
-
-
-        return action
 
     def save(self, file_path: str) -> None:
         self.model.save(file_path)
