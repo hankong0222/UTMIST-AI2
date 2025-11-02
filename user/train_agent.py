@@ -516,11 +516,12 @@ def spatial_control_reward(env: WarehouseBrawl) -> float:
     if player_x < -6.25:
         return  -1.0
     if -1.25 < player_x < -0.75:
-        return -0.5
+        return -0.3
     if 0.75 < player_x < 2.25:
-        return -0.5
+        return -0.3
     if 6.25 > player_x:
         return -1.0
+
 
     # Reward being roughly on top of the fixed platforms (use tolerances)
     EPS = 0.15
@@ -529,7 +530,7 @@ def spatial_control_reward(env: WarehouseBrawl) -> float:
     if on_left_platform or on_right_platform:
         return 0.1  # small dense positive
 
-    return 0.0 
+    return 1.0 
     
 
 def stock_advantage_reward(
@@ -642,15 +643,15 @@ def edge_guarding_reward(env: WarehouseBrawl) -> float:
 
 def on_win_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == 'player':
-        return 100.0
+        return 30.0
     else:
-        return -50.0
+        return -10.0
 
 def on_knockout_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == 'player':
-        return -15.0
+        return -5.0
     else:
-        return 10.0
+        return 8.0
     
 def on_equip_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == "player":
@@ -680,16 +681,16 @@ Add your dictionary of RewardFunctions here using RewTerms
 def gen_reward_manager():
     reward_functions = {
         #'target_height_reward': RewTerm(func=base_height_l2, weight=0.0, params={'target_height': -4, 'obj_name': 'player'}),
-        'danger_zone_reward': RewTerm(func=danger_zone_reward, weight=2.0),
+        'danger_zone_reward': RewTerm(func=danger_zone_reward, weight=2.5),
         'damage_interaction_reward': RewTerm(func=damage_interaction_reward, weight=2.0, params={'mode': RewardMode.SYMMETRIC}),
         # 'head_to_middle_reward': RewTerm(func=head_to_middle_reward, weight=0.5),
         'head_to_opponent': RewTerm(func=head_to_opponent, weight=0.2),
         'penalize_attack_reward': RewTerm(func=in_state_reward, weight=-0.01, params={'desired_state': AttackState}),
-        'holding_more_than_3_keys': RewTerm(func=holding_more_than_3_keys, weight=-2.0),
+        'holding_more_than_3_keys': RewTerm(func=holding_more_than_3_keys, weight=-1.0),
         #'taunt_reward': RewTerm(func=in_state_reward, weight=0.2, params={'desired_state': TauntState}),
         'spatial_control_reward': RewTerm(func=spatial_control_reward, weight=1.5),
-        'stock_advantage_reward': RewTerm(func=stock_advantage_reward, weight=5.0),
-        'edge_guarding_reward': RewTerm(func=edge_guarding_reward, weight=1.5),
+        'stock_advantage_reward': RewTerm(func=stock_advantage_reward, weight=2.0),
+        'edge_guarding_reward': RewTerm(func=edge_guarding_reward, weight=1.0),
 
     }
     signal_subscriptions = {
@@ -735,7 +736,7 @@ if __name__ == '__main__':
         save_freq=50_000, # Save frequency
         max_saved=40, # Maximum number of saved models
         save_path='checkpoints', # Save path
-        run_name='experiment_24',
+        run_name='experiment_26',
         mode=SaveHandlerMode.RESUME # Save mode, FORCE or RESUME
     )
 

@@ -38,7 +38,7 @@ class SubmittedAgent(Agent):
     def __init__(
             self,
             file_path: Optional[str] = None,
-            learning_rate: float = 3e-4,
+            learning_rate: float = 5e-4,
             n_steps: int = 2048,
             batch_size: int = 128,
             n_epochs: int = 10,
