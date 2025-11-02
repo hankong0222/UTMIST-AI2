@@ -411,8 +411,8 @@ def damage_interaction_reward(
 
 def danger_zone_reward(
     env: WarehouseBrawl,
-    zone_penalty: int = 5,
-    zone_height: float = 4.2
+    zone_penalty: int = 8,
+    zone_height: float = 5.0
 ) -> float:
     """
     Applies a penalty for every time frame player surpases a certain height threshold in the environment.
@@ -683,19 +683,21 @@ def gen_reward_manager():
         'danger_zone_reward': RewTerm(func=danger_zone_reward, weight=2.0),
         'damage_interaction_reward': RewTerm(func=damage_interaction_reward, weight=2.0, params={'mode': RewardMode.SYMMETRIC}),
         # 'head_to_middle_reward': RewTerm(func=head_to_middle_reward, weight=0.5),
-        'head_to_opponent': RewTerm(func=head_to_opponent, weight=0.5),
-        'penalize_attack_reward': RewTerm(func=in_state_reward, weight=-8.0, params={'desired_state': AttackState}),
-        'holding_more_than_3_keys': RewTerm(func=holding_more_than_3_keys, weight=-1.0),
+        'head_to_opponent': RewTerm(func=head_to_opponent, weight=0.2),
+        'penalize_attack_reward': RewTerm(func=in_state_reward, weight=-0.01, params={'desired_state': AttackState}),
+        'holding_more_than_3_keys': RewTerm(func=holding_more_than_3_keys, weight=-2.0),
         #'taunt_reward': RewTerm(func=in_state_reward, weight=0.2, params={'desired_state': TauntState}),
         'spatial_control_reward': RewTerm(func=spatial_control_reward, weight=2.0),
         'stock_advantage_reward': RewTerm(func=stock_advantage_reward, weight=5.0),
+        'edge_guarding_reward': RewTerm(func=edge_guarding_reward, weight=1.5),
+
     }
     signal_subscriptions = {
         'on_win_reward': ('win_signal', RewTerm(func=on_win_reward, weight=50)),
-        'on_knockout_reward': ('knockout_signal', RewTerm(func=on_knockout_reward, weight=8)),
+        'on_knockout_reward': ('knockout_signal', RewTerm(func=on_knockout_reward, weight=12)),
         'on_combo_reward': ('hit_during_stun', RewTerm(func=on_combo_reward, weight=5)),
-        'on_equip_reward': ('weapon_equip_signal', RewTerm(func=on_equip_reward, weight=10)),
-        'on_drop_reward': ('weapon_drop_signal', RewTerm(func=on_drop_reward, weight=15))
+        'on_equip_reward': ('weapon_equip_signal', RewTerm(func=on_equip_reward, weight=15)),
+        'on_drop_reward': ('weapon_drop_signal', RewTerm(func=on_drop_reward, weight=20))
     }
     return RewardManager(reward_functions, signal_subscriptions)
 
