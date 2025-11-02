@@ -655,9 +655,9 @@ def on_knockout_reward(env: WarehouseBrawl, agent: str) -> float:
 def on_equip_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == "player":
         if env.objects["player"].weapon == "Hammer":
-            return 5.0
+            return 10.0
         elif env.objects["player"].weapon == "Spear":
-            return 4.0
+            return 10.0
     return 0.0
 
 def on_drop_reward(env: WarehouseBrawl, agent: str) -> float:
@@ -668,7 +668,7 @@ def on_drop_reward(env: WarehouseBrawl, agent: str) -> float:
 
 def on_combo_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == 'player':
-        return -5.0
+        return -10.0
     else:
         return 1.0
     
@@ -680,15 +680,15 @@ Add your dictionary of RewardFunctions here using RewTerms
 def gen_reward_manager():
     reward_functions = {
         #'target_height_reward': RewTerm(func=base_height_l2, weight=0.0, params={'target_height': -4, 'obj_name': 'player'}),
-        'danger_zone_reward': RewTerm(func=danger_zone_reward, weight=0.5),
-        'damage_interaction_reward': RewTerm(func=damage_interaction_reward, weight=1.0),
+        'danger_zone_reward': RewTerm(func=danger_zone_reward, weight=2.0),
+        'damage_interaction_reward': RewTerm(func=damage_interaction_reward, weight=2.0, params={'mode': RewardMode.SYMMETRIC}),
         #'head_to_middle_reward': RewTerm(func=head_to_middle_reward, weight=0.01),
-        #'head_to_opponent': RewTerm(func=head_to_opponent, weight=0.05),
-        'penalize_attack_reward': RewTerm(func=in_state_reward, weight=-0.04, params={'desired_state': AttackState}),
+        'head_to_opponent': RewTerm(func=head_to_opponent, weight=0.5),
+        'penalize_attack_reward': RewTerm(func=in_state_reward, weight=-8.0, params={'desired_state': AttackState}),
         'holding_more_than_3_keys': RewTerm(func=holding_more_than_3_keys, weight=-1.0),
         #'taunt_reward': RewTerm(func=in_state_reward, weight=0.2, params={'desired_state': TauntState}),
         'spatial_control_reward': RewTerm(func=spatial_control_reward, weight=2.0),
-        'stock_advantage_reward': RewTerm(func=stock_advantage_reward, weight=1.0),
+        'stock_advantage_reward': RewTerm(func=stock_advantage_reward, weight=5.0),
     }
     signal_subscriptions = {
         'on_win_reward': ('win_signal', RewTerm(func=on_win_reward, weight=50)),
@@ -710,14 +710,14 @@ The main function runs training. You can change configurations such as the Agent
 if __name__ == '__main__':
     # Create agent
     # my_agent = CustomAgent(sb3_class=PPO, extractor=MLPExtractor)
-    my_agent = SB3Agent(sb3_class=PPO)
+    # my_agent = SB3Agent(sb3_class=PPO)
 
     # Start here if you want to train from scratch. e.g:
     # my_agent = RecurrentPPOAgent()
     # my_agent = RecurrentPPOAgent()
 
     # Start here if you want to train from a specific timestep. e.g:
-    # my_agent = SB3Agent(sb3_class=PPO, file_path=r'')
+    my_agent = SB3Agent(sb3_class=PPO, file_path=r'D:\My stuff\UTMIST-AI2\checkpoints\experiment_22\rl_model_121024_steps')
 
     # Reward manager
     reward_manager = gen_reward_manager()
@@ -733,7 +733,7 @@ if __name__ == '__main__':
         save_freq=50_000, # Save frequency
         max_saved=40, # Maximum number of saved models
         save_path='checkpoints', # Save path
-        run_name='experiment_21',
+        run_name='experiment_22',
         mode=SaveHandlerMode.RESUME # Save mode, FORCE or RESUME
     )
 
