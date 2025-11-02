@@ -710,14 +710,14 @@ The main function runs training. You can change configurations such as the Agent
 if __name__ == '__main__':
     # Create agent
     # my_agent = CustomAgent(sb3_class=PPO, extractor=MLPExtractor)
-    # my_agent = SB3Agent(sb3_class=PPO)
+    my_agent = SB3Agent(sb3_class=PPO)
 
     # Start here if you want to train from scratch. e.g:
     # my_agent = RecurrentPPOAgent()
     # my_agent = RecurrentPPOAgent()
 
     # Start here if you want to train from a specific timestep. e.g:
-    my_agent = SB3Agent(sb3_class=PPO, file_path=r'D:\My stuff\UTMIST-AI2\checkpoints\experiment_22\rl_model_121024_steps')
+    # my_agent = SB3Agent(sb3_class=PPO, file_path=r'D:\My stuff\UTMIST-AI2\checkpoints\experiment_22\rl_model_121024_steps')
 
     # Reward manager
     reward_manager = gen_reward_manager()
@@ -733,7 +733,7 @@ if __name__ == '__main__':
         save_freq=50_000, # Save frequency
         max_saved=40, # Maximum number of saved models
         save_path='checkpoints', # Save path
-        run_name='experiment_22',
+        run_name='experiment_24',
         mode=SaveHandlerMode.RESUME # Save mode, FORCE or RESUME
     )
 
