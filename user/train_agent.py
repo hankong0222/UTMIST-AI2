@@ -403,7 +403,7 @@ def damage_interaction_reward(
     else:
         raise ValueError(f"Invalid mode: {mode}")
 
-    return reward / 140
+    return reward / 100
 
 
 # In[ ]:
@@ -488,7 +488,7 @@ def head_to_opponent(
     opponent: Player = env.objects["opponent"]
 
     # Apply penalty if the player is in the danger zone
-    multiplier = -1 if player.body.position.x > opponent.body.position.x else 1
+    multiplier = -10 if player.body.position.x > opponent.body.position.x else 10
     reward = multiplier * (player.body.position.x - player.prev_x)
 
     return reward
