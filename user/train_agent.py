@@ -516,9 +516,9 @@ def spatial_control_reward(env: WarehouseBrawl) -> float:
     if player_x < -6.25:
         return  -1.0
     if -1.25 < player_x < -0.75:
-        return -0.1
+        return -0.5
     if 0.75 < player_x < 2.25:
-        return -0.1
+        return -0.5
     if 6.25 > player_x:
         return -1.0
 
