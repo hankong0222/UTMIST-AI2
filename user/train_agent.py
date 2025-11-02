@@ -403,7 +403,7 @@ def damage_interaction_reward(
     else:
         raise ValueError(f"Invalid mode: {mode}")
 
-    return reward / 100
+    return reward / 10
 
 
 # In[ ]:
@@ -511,7 +511,6 @@ def spatial_control_reward(env: WarehouseBrawl) -> float:
     player: Player = env.objects["player"]
 
     player_x = player.body.position.x
-    player_y = player.body.position.y
 
     if player_x < -6.25:
         return  -1.0
@@ -522,15 +521,7 @@ def spatial_control_reward(env: WarehouseBrawl) -> float:
     if 6.25 > player_x:
         return -1.0
 
-
-    # Reward being roughly on top of the fixed platforms (use tolerances)
-    EPS = 0.15
-    on_left_platform   = (-7.0 < player_x < -2.0) and (abs(player_y - 2.85) <= EPS)
-    on_right_platform  = ( 2.0 < player_x <  7.0) and (abs(player_y - 0.85) <= EPS)
-    if on_left_platform or on_right_platform:
-        return 0.1  # small dense positive
-
-    return 1.0 
+    return 0.0 
     
 
 def stock_advantage_reward(
@@ -656,9 +647,9 @@ def on_knockout_reward(env: WarehouseBrawl, agent: str) -> float:
 def on_equip_reward(env: WarehouseBrawl, agent: str) -> float:
     if agent == "player":
         if env.objects["player"].weapon == "Hammer":
-            return 10.0
+            return 20.0
         elif env.objects["player"].weapon == "Spear":
-            return 10.0
+            return 20.0
     return 0.0
 
 def on_drop_reward(env: WarehouseBrawl, agent: str) -> float:
