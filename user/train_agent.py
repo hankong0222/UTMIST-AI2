@@ -403,7 +403,7 @@ def damage_interaction_reward(
     else:
         raise ValueError(f"Invalid mode: {mode}")
 
-    return reward / 10
+    return reward / 8
 
 
 # In[ ]:
@@ -411,7 +411,7 @@ def damage_interaction_reward(
 
 def danger_zone_reward(
     env: WarehouseBrawl,
-    zone_penalty: int = 8,
+    zone_penalty: int = 50,
     zone_height: float = 5.0
 ) -> float:
     """
@@ -429,7 +429,7 @@ def danger_zone_reward(
     player: Player = env.objects["player"]
 
     # Apply penalty if the player is in the danger zone
-    reward = -zone_penalty if player.body.position.y >= zone_height else 0.0
+    reward = -zone_penalty  if player.body.position.y >= zone_height else 0.0
 
     return reward * env.dt
 
@@ -452,7 +452,7 @@ def in_state_reward(
     player: Player = env.objects["player"]
 
     # Apply penalty if the player is in the danger zone
-    reward = 1 if isinstance(player.state, desired_state) else 0.0
+    reward = -10 if isinstance(player.state, desired_state) else 0.0
 
     return reward * env.dt
 
@@ -474,7 +474,7 @@ def head_to_middle_reward(
     player: Player = env.objects["player"]
 
     # Apply penalty if the player is in the danger zone
-    multiplier = -1 if player.body.position.x > 0 else 1
+    multiplier = -10 if player.body.position.x > 0 else 10
     reward = multiplier * (player.body.position.x - player.prev_x)
 
     return reward
@@ -488,7 +488,7 @@ def head_to_opponent(
     opponent: Player = env.objects["opponent"]
 
     # Apply penalty if the player is in the danger zone
-    multiplier = -10 if player.body.position.x > opponent.body.position.x else 10
+    multiplier = -15 if player.body.position.x > opponent.body.position.x else 15
     reward = multiplier * (player.body.position.x - player.prev_x)
 
     return reward
@@ -512,16 +512,16 @@ def spatial_control_reward(env: WarehouseBrawl) -> float:
 
     player_x = player.body.position.x
 
-    if player_x < -6.25:
-        return  -1.0
-    if -1.25 < player_x < -0.75:
-        return -0.3
-    if 0.75 < player_x < 2.25:
-        return -0.3
-    if 6.25 > player_x:
-        return -1.0
-
-    return 0.0 
+    if player_x < -6.5:
+        return  -10.0
+    elif -1.25 < player_x < -0.75:
+        return -7.5
+    elif 0.75 < player_x < 2.25:
+        return -7.5
+    elif 6.5 < player_x:
+        return -10.0
+    else:
+        return 8.0
     
 
 def stock_advantage_reward(
@@ -727,7 +727,7 @@ if __name__ == '__main__':
         save_freq=50_000, # Save frequency
         max_saved=40, # Maximum number of saved models
         save_path='checkpoints', # Save path
-        run_name='experiment_26',
+        run_name='experiment_31',
         mode=SaveHandlerMode.RESUME # Save mode, FORCE or RESUME
     )
 

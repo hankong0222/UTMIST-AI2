@@ -13,7 +13,7 @@ from user.my_agent import SubmittedAgent
 my_agent = UserInputAgent()
 
 # Input your file path here in SubmittedAgent if you are loading a model:
-opponent = SubmittedAgent(file_path=r"D:\My stuff\UTMIST-AI2\checkpoints\experiment_26\rl_model_268481_steps")
+opponent = SubmittedAgent(file_path=r"D:\My stuff\UTMIST-AI2\checkpoints\experiment_30\rl_model_798684_steps")
 match_time = 99999
 
 # Run a single real-time match

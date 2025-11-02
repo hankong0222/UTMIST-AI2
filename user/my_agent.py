@@ -39,7 +39,7 @@ class SubmittedAgent(Agent):
             self,
             file_path: Optional[str] = None,
             learning_rate: float = 5e-4,
-            n_steps: int = 2048,
+            n_steps: int = 1024,
             batch_size: int = 128,
             n_epochs: int = 10,
             gamma: float = 0.99,
