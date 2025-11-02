@@ -687,7 +687,7 @@ def gen_reward_manager():
         'penalize_attack_reward': RewTerm(func=in_state_reward, weight=-0.01, params={'desired_state': AttackState}),
         'holding_more_than_3_keys': RewTerm(func=holding_more_than_3_keys, weight=-2.0),
         #'taunt_reward': RewTerm(func=in_state_reward, weight=0.2, params={'desired_state': TauntState}),
-        'spatial_control_reward': RewTerm(func=spatial_control_reward, weight=2.0),
+        'spatial_control_reward': RewTerm(func=spatial_control_reward, weight=1.5),
         'stock_advantage_reward': RewTerm(func=stock_advantage_reward, weight=5.0),
         'edge_guarding_reward': RewTerm(func=edge_guarding_reward, weight=1.5),
 
